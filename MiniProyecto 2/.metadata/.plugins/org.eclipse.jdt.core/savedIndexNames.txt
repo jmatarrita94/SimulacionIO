@@ -1,0 +1,4 @@
+INDEX VERSION 1.129+/Users/luiscampos/Documents/IO/ProyectoIO/MiniProyecto 2/.metadata/.plugins/org.eclipse.jdt.core
+2132672051.index
+3871240459.index
+680827947.index
