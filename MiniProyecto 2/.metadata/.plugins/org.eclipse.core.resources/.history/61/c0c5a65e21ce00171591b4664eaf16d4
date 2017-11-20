@@ -10,6 +10,7 @@ public class servidorGamma extends servidor {
 			resultadoGamma = resultadoGamma+resultado;
 			r = Math.random()*10;
 		}
-		return resultadoGamma;
+		resultado = 0;
+		return resultado;
 	}
 }

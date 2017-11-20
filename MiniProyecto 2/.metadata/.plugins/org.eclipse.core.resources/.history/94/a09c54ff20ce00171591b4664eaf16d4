@@ -1,5 +1,6 @@
 
 public class servidorExponencial extends servidor{
+	double resultado;
 	double lambda;
 	
 	public double function() {

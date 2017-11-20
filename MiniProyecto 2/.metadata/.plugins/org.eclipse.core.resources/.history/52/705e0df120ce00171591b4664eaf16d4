@@ -7,7 +7,7 @@ double tiempoEspera; // tiempo de espera entre clientes.
 int contadorClientes; // contador de cuantos clientes ha atendido el servidor en un dia.
 double tiempoServicio; //tiempo de servicio de un trabajo.
 double tiempoServicioPromedio; //tiempo de servicio promedio en un dia.
-double resultado;
+double r = Math.random()*10;
 
 
 public abstract double function();
