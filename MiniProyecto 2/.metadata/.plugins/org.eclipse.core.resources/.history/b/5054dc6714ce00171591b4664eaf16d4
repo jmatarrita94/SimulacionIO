@@ -1,0 +1,7 @@
+
+public class servidorGamma extends servidor {
+
+	public float function(){
+		return null;
+	}
+}

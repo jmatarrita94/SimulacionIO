@@ -1,0 +1,9 @@
+
+public class servidorUniforme extends servidor {
+	
+	
+	public float function(int a, int b) {
+		float resultado = 0;
+		resultado = (a-b)/(b-a);		
+	}
+}

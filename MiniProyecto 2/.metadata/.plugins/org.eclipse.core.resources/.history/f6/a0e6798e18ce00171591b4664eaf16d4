@@ -1,0 +1,11 @@
+
+public class servidorExponencial extends servidor{
+	double resultado;
+	double lambda;
+	double x;
+	
+	public double function() {
+		resultado = Math.log((X-1))/lambda;
+	}
+
+}

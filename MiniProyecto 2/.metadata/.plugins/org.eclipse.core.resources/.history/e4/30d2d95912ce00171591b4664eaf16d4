@@ -1,0 +1,14 @@
+import javax.swing.*;
+
+public abstract class servidor(){
+
+int estado;//estado del servidor si activo(1) o inactivo(0)
+int tiempoEspera; // tiempo de espera entre clientes.
+int contadorClientes; // contador de cuantos clientes ha atendido el servidor en un dia.
+float tiempoServicio; //tiempo de servicio de un trabajo.
+float tiempoServicioPromedio; //tiempo de servicio promedio en un dia.
+
+
+public abstract float function(){}
+
+}
