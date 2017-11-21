@@ -2,10 +2,14 @@
 public class servidorExponencial extends servidor{
 	double lambda;
 	
-	public double function() {
+	public servidorExponencial(double lambdaEntra) {
+		lambda = lambdaEntra;
+	}
+	
+	
+	public double calculoTiempoServicio() {
 		double r = Math.random()*10;
-		return resultado = Math.log((r-1))/lambda;
-		
+		return Math.log((r-1))/-lambda;	
 	}
 
 }

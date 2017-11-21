@@ -1,0 +1,16 @@
+//import javax.swing*;
+
+
+public class sistema{
+ 
+	cliente [] cola;
+	double tiempoSistema = 0;
+	ArrayList<servidor> = new ArrayList<servidor>(); 	
+
+	public void run() {
+		while (tiempoSistema < 600) {
+			for(servidor s : )
+		}
+	}
+
+}

@@ -1,0 +1,16 @@
+
+public class servidorUniforme extends servidor {
+	double a;
+	double b;
+	double resultado = 0;
+	
+	public servidorUniforme(double a1, double b1) {
+		a = a1;
+		b = b1;
+	}
+	
+	public double calculoTiempoServicio() {
+		double r = Math.random()*10;
+		return resultado = (r-b)/(b-a);		
+	}
+}

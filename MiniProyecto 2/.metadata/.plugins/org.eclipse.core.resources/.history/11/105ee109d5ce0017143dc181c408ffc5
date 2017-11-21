@@ -1,0 +1,13 @@
+//import javax.swing*;
+
+
+public class sistema{
+ 
+	cliente [] cola;
+	
+
+	public void run() {
+		
+	}
+
+}

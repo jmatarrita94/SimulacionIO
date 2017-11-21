@@ -1,0 +1,9 @@
+//import javax.swing*;
+
+
+public class sistema{
+ 
+	cliente [] cola;
+  
+
+}

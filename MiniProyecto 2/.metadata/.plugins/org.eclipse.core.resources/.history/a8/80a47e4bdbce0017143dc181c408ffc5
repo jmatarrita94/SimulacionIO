@@ -1,0 +1,20 @@
+import java.util.*;
+
+
+public class sistema{
+ 
+	ArrayList<cliente> cola = new ArrayList<cliente>();
+	double tiempoSistema = 0;
+	ArrayList<servidor> servidores = new ArrayList<servidor>(); 	
+	
+
+	public void run() {
+		double t = 0;
+		while (tiempoSistema < 600) {
+			for(servidor s : servidores) {
+				
+			}
+		}
+	}
+
+}

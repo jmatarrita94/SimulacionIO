@@ -1,11 +1,16 @@
 
 public class servidorUniforme extends servidor {
-	double a =0;
-	double b =0;
+	double a;
+	double b;
 	double resultado = 0;
 	
-	public double function() {
-		double r = Math.random()*10;
-		return resultado = (r-b)/(b-a);		
+	public servidorUniforme(double aEntra, double bEntra) {
+		a = aEntra;
+		b = bEntra;
+	}
+	
+	public double calculoTiempoServicio() {
+		double r = Math.random()*10;//r es el random 
+		return (r-b)/(b-a);		
 	}
 }
