@@ -8,8 +8,18 @@ public class servidorExponencial extends servidor{
 	
 	
 	public double calculoTiempoServicio() {
-		double r = Math.random()*10;
-		return Math.log((r-1))/-lambda;	
+		double resultadoFin;
+		do{
+			resultadoFin = 0;
+			double r = Math.random()*70;
+			resultadoFin = Math.log((r-1))/-lambda;
+		}while(Double.isNaN(resultadoFin));	
+		if(resultadoFin<0){
+			return -round(resultadoFin,2);
+		}else{
+			return round(resultadoFin , 2);
+		}
+		
 	}
 
 }

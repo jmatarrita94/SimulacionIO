@@ -12,12 +12,17 @@ public class servidorGamma extends servidor {
 	}
 	
 	public double calculoTiempoServicio(){
-		double r = Math.random()*10;
-		for (int i = 0; i<alpha; i++) {
-			resultado = Math.log((r-1))/-lambda;
-			resultadoGamma += resultado;
-			r = Math.random()*10;
+		do{
+			resultadoGamma = 0;
+			double r = Math.random()*70;
+			for (int i = 0; i<alpha; i++) {
+				resultadoGamma += Math.log((r-1))/-lambda;
+				r = Math.random()*15;
+			}
+		}while(Double.isNaN(resultadoGamma));
+		if(resultadoGamma<0){
+			return -round(resultadoGamma, 2);
 		}
-		return resultadoGamma;
+		return round(resultadoGamma ,2);
 	}
 }

@@ -10,7 +10,16 @@ public class servidorUniforme extends servidor {
 	}
 	
 	public double calculoTiempoServicio() {
-		double r = Math.random()*10;//r es el random 
-		return (r-b)/(b-a);		
+		double resultadoFin;
+		do{
+			resultadoFin = 0;
+			double r = Math.random()*70;//r es el random 
+			resultadoFin = (r-b)/(b-a);
+		}while(Double.isNaN(resultadoFin));
+		if(resultadoFin<0){
+			return -round(resultadoFin,2);
+		}else{
+			return round(resultadoFin ,2);
+		}	
 	}
 }
