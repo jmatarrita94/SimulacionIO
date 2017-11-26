@@ -15,7 +15,7 @@ public class servidorGamma extends servidor {
 		double r = Math.random()*10;
 		for (int i = 0; i<alpha; i++) {
 			resultado = Math.log((r-1))/-lambda;
-			resultadoGamma = resultadoGamma+resultado;
+			resultadoGamma += resultado;
 			r = Math.random()*10;
 		}
 		return resultadoGamma;
