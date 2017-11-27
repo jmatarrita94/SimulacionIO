@@ -1,0 +1,1 @@
+typeSearchIndex = [{"p":"<Unnamed>","l":"cliente"},{"p":"<Unnamed>","l":"Main"},{"p":"<Unnamed>","l":"servidor"},{"p":"<Unnamed>","l":"servidorExponencial"},{"p":"<Unnamed>","l":"servidorGamma"},{"p":"<Unnamed>","l":"servidorUniforme"},{"p":"<Unnamed>","l":"sistema"}]

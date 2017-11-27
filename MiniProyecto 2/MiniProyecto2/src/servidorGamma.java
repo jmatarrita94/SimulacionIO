@@ -1,4 +1,7 @@
 
+/**
+ *	Servidor con distribucion de servicio gamma
+ */
 public class servidorGamma extends servidor {
 	double resultadoGamma=0;
 	double lambda=0;

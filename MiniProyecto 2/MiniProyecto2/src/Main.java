@@ -5,7 +5,7 @@ public class Main {
 		System.out.println("EMPIEZA SIMULACION");
 		double resultados[] = new double[17];
 		for(int i = 0; i < 1000; ++i) {
-			System.out.println(i);
+			System.out.println("Dia: "+i);
 			sistema sistemaSimulado = new sistema();
 			sistemaSimulado.run();
 			double r[] = sistemaSimulado.obtenerResultados();

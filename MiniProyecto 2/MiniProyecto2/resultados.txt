@@ -1,0 +1,22 @@
+(a) the expected waiting time for a randomly selected job;
+	1.0467892890603496
+(b) the expected response time;
+	0.11462666865356855
+(c) the expected length of a queue (excluding the jobs receiving service), when a new job arrives; 
+	0.778869892071593
+(d) the expected maximum waiting time during a 10-hour day;
+	7.047989999999991
+(e) the expected maximum length of a queue during a 10-hour day;
+	6.483
+(f) the probability that at least one server is available, when a job arrives;
+	0.3749651456928639
+(g) the probability that at least two servers are available, when a job arrives;
+	0.3749651456928639
+(h) the expected number of jobs processed by each server;
+	gama1: 92.489			gama2: 84.449			exponencial: 44.418			uniforme: 77.207
+(i) the expected time each server is idle during the day;
+	gama1: 199.46542000000002	gama2: 188.6993899999999	exponencial: 122.98381999999995		uniforme: 185.21554999999984
+(j) the expected number of jobs still remaining in the system at 6:03 pm;
+	0.691
+(k) the expected percentage of jobs that left the queue prematurely.
+	1.162752427942611

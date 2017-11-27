@@ -1,4 +1,7 @@
 
+/**
+ *	Servidor con distribucion de servicion uniforme
+ */
 public class servidorUniforme extends servidor {
 	double a;
 	double b;

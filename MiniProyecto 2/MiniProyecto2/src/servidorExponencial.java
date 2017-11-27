@@ -1,4 +1,7 @@
 
+/**
+ *	Servidor con distribucion de servicio exponencial
+ */
 public class servidorExponencial extends servidor{
 	double lambda;
 	

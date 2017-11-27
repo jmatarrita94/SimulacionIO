@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Queue;
 import java.util.Random;
 
-
 public class sistema{
  
 	Queue<cliente> cola = new LinkedList<cliente>();
@@ -42,6 +41,10 @@ public class sistema{
 		}
 	}
 
+	
+	/**
+	 * Inicia la simulacion de un dia
+	 */
 	public void run() {
 		this.siguienteLlegada = this.calculoTiempoLlegada();
 		double t = 0;
@@ -128,6 +131,10 @@ public class sistema{
 		}
 	}
 	
+	/**
+	 * Procesa la llegada de un cliente
+	 * @param tiempoLlegada tiempo para la llegada del cliente
+	 */
 	private void manejoLlegada(double tiempoLlegada) {
 		cliente clienteTemp = new cliente();
 		for(int i = 0; i<4; i++){
@@ -163,6 +170,11 @@ public class sistema{
 		}
 	}
 	
+	/**
+	 * Procesa la salida de un cliente
+	 * @param serv Servidor que realiza el servicio
+	 * @param tiempoSalida Timpo para que el servidor termine el servicio
+	 */
 	private void manejoSalida(servidor serv, double tiempoSalida){
 		for(int i = 0; i<4; i++){
 			if(this.estadoServidores[i]){
@@ -180,6 +192,10 @@ public class sistema{
 		
 	}
 
+	/**
+	 * Calcula el tiempo de la siguiente llegada
+	 * @return Tiempo para la llegada
+	 */
 	private double calculoTiempoLlegada() {
 		double res;
 		do{
@@ -193,6 +209,11 @@ public class sistema{
 		}	
 	}
 	
+	/**
+	 * Asigna un servidor aleatorio si hay alguno desocupado al siguiente cliente
+	 * @param tiempo Tiempo actual del sistema
+	 * @return Verdadero si hay un servidor desocupado, falso de lo contrario
+	 */
 	private boolean asignarServidor(double tiempo){
 		boolean asignado = false;
 		List<Integer> servidoresDisponibles = new ArrayList<Integer>();
@@ -222,14 +243,20 @@ public class sistema{
 		}
 	}
 	
+	/**
+	 * Desocupa al servidor cuando termina el servicio
+	 * @param servidor Servidor a desocupar
+	 */
 	private void desasignarServidor(int servidor){
 		estadoServidores[servidor] = false;
 		tiempoServidores[servidor] = -1;
 		this.enteroServidor(servidor).servirCliente(this.tiempoSistema);
 	}
 	
-	
-	
+	/**
+	 * Retorna el servidor que va a completar el siguiente servicio
+	 * @return El servidor
+	 */
 	private servidor obtenerTiempoMenorServidor(){
 		servidor siguienteServidor = null;
 		double tiempoMenor = 10000000;
@@ -242,6 +269,11 @@ public class sistema{
 		return siguienteServidor;
 	}
 	
+	/**
+	 * Mapeo de un numero entero a un servidor
+	 * @param tipo Numero de servidor
+	 * @return Servidor asociado al numero
+	 */
 	private servidor enteroServidor(int tipo){
 		if(tipo == 0 ){
 			return s1g;
@@ -257,6 +289,11 @@ public class sistema{
 		}
 	}
 	
+	/**
+	 * Mapeo de un servidor a un numero entero
+	 * @param serv El servidor
+	 * @return numero asociado al servidor
+	 */
 	private int servidorEntero(servidor serv){
 		if (serv == s1g) {
 			return 0;
@@ -270,6 +307,9 @@ public class sistema{
 		return -1;
 	}
 	
+	/**
+	 * Imprime el estado actual del sistema
+	 */
 	private void imprimirEstado(){
 		System.out.println("----------------------------------------0----------------------------------------");
 		System.out.println("TIEMPO DEL SISTEMA: "+ s1g.round((this.tiempoSistema),1));
@@ -291,6 +331,9 @@ public class sistema{
 		System.out.println("----------------------------------------0----------------------------------------");
 	}
 	
+	/**
+	 * @return Verdadero si hay un servidor disponible, falso de lo contrario
+	 */
 	private boolean hayServidoresActivos(){
 		for(int i = 0; i<4; i++){
 			if(this.estadoServidores[i]){
@@ -300,6 +343,9 @@ public class sistema{
 		return false;
 	}
 	
+	/**
+	 * @return El numero de servidores que se encuentran desocupados
+	 */
 	private int numServidoresDisponibles() {
 		int resultado = 0;
 		for(boolean b: this.estadoServidores) {
@@ -309,6 +355,9 @@ public class sistema{
 		return resultado;
 	}
 	
+	/**
+	 * @return Los resultados de la simulacion de un dia
+	 */
 	public double[] obtenerResultados() {
 		double resultado[] = new double[17];
 		resultado[0] = this.tiempoDeEsperaEnCola/this.clientesPorDía;						//a

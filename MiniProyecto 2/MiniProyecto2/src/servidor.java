@@ -10,30 +10,31 @@ public abstract class servidor	{
 	double tiempoServicioPromedio=0; //tiempo de servicio promedio en un dia.
 	double tiempoActual = 0;
 	double resultado=0;
-		
 	
-	
+	/**
+	 * Calcula el tiempo que tomara realizar el servicio
+	 * @return El tiempo que el servidor durara realizando un servicio
+	 */
 	public abstract double calculoTiempoServicio();
 	
-	
-//	public double run (double tiempoActual) {
-//		if (siguienteSalida == tiempoActual) {
-//			tiempoUltimaSalida = tiempoActual;
-//			siguienteSalida = -1;
-//		}
-//		return siguienteSalida;
-//	}
-	
+	/**
+	 * Inicio del servicio
+	 * @param tiempoActual2 Tiempo actual del sistema
+	 * @return Tiempo que durara el servicio
+	 */
 	public double atenderCliente(double tiempoActual2) {
 		this.tiempoServicio = this.calculoTiempoServicio();
 		this.contadorClientes++;
 		this.tiempoActual = tiempoActual2;
 		this.tiempoEsperaTotal += (this.tiempoActual - tiempoUltimaSalida);
-		//this.siguienteSalida = tiempoActual+tiempoServicio;
 		this.tiempoServicioPromedio += tiempoServicio;
 		return tiempoServicio;
 	}
 	
+	/**
+	 * Fin del servicio
+	 * @param tiempoActual2 Tiempo actual del sistema
+	 */
 	public void servirCliente(double tiempoActual2){
 		this.tiempoActual = tiempoActual2;
 		this.tiempoUltimaSalida = tiempoActual2;

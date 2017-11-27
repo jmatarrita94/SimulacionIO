@@ -10,6 +10,10 @@ public class cliente{
 		return tiempoEspera;
 	}
 
+	/**
+	 * Aumenta el tiempo de espera del cliente en la cola
+	 * @param tiempoEspera Cantidad de tiempo que debe aumentar
+	 */
 	public void setTiempoEspera(double tiempoEspera) {
 		this.tiempoEspera += tiempoEspera;
 	}	
