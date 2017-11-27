@@ -1,6 +1,8 @@
-import java.util.LinkedList;
-import java.util.Queue;
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+import java.util.Random;
 
 
 public class sistema{
@@ -89,13 +91,7 @@ public class sistema{
 				this.manejoLlegada(this.siguienteLlegada);
 				this.siguienteLlegada = this.calculoTiempoLlegada();
 			}
-//			this.imprimirEstado();
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			
 		}
 		while(!cola.isEmpty() || this.hayServidoresActivos()){
 			//SE CIERRAN LAS OFICINAS
@@ -128,13 +124,6 @@ public class sistema{
 					--this.clientesEnCola;
 					this.manejoLlegada(0);
 				}
-			}
-//			this.imprimirEstado();
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
 			}
 		}
 	}
@@ -206,15 +195,31 @@ public class sistema{
 	
 	private boolean asignarServidor(double tiempo){
 		boolean asignado = false;
+		List<Integer> servidoresDisponibles = new ArrayList<Integer>();
 		for(int i=0; i<4; i++){
 			if(!estadoServidores[i]){
-				estadoServidores[i] = true;				
-				tiempoServidores[i] = this.enteroServidor(i).atenderCliente(tiempo);
-				asignado = true;
-				i = 4;
+				servidoresDisponibles.add(i);
 			}
 		}
-		return asignado;
+		if(servidoresDisponibles.isEmpty()){
+			return asignado;
+		}else{
+			int servidor;
+			int size = servidoresDisponibles.size();
+			int item = new Random().nextInt(size);
+			int j = 0;
+			for(int i = 0; i<size;i++ )
+			{
+			    if (j == item){
+			        servidor = servidoresDisponibles.get(i);
+			        estadoServidores[servidor] = true;				
+			    	tiempoServidores[servidor] = this.enteroServidor(servidor).atenderCliente(tiempo);
+			    	asignado = true;
+			    }
+			    j++;
+			}
+			return asignado;
+		}
 	}
 	
 	private void desasignarServidor(int servidor){
@@ -223,18 +228,6 @@ public class sistema{
 		this.enteroServidor(servidor).servirCliente(this.tiempoSistema);
 	}
 	
-//	private void actualizarTiempos(double tiempo){
-//		this.siguienteLlegada -= tiempo;
-//		for(cliente item : this.cola){
-//		    item.setTiempoEspera(tiempo);
-//		}
-//		for(int i = 0; i<4; i++){
-//			if(this.estadoServidores[i]){
-//				this.tiempoServidores[i] -= tiempo;
-//			}
-//		}
-//		this.tiempoSistema += tiempo;
-//	}
 	
 	
 	private servidor obtenerTiempoMenorServidor(){
