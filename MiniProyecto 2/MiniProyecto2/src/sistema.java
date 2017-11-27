@@ -1,5 +1,6 @@
 import java.util.LinkedList;
 import java.util.Queue;
+import java.util.ArrayList;
 
 
 public class sistema{
@@ -9,11 +10,20 @@ public class sistema{
 	double siguienteLlegada = 0;
 	boolean[] estadoServidores = new boolean[4];
 	double[] tiempoServidores = new double[4];
-	int clientesPorDía; //Cantidad total de llegadas
-	int clientesAtendidos; // Cantidad total de llegadas atentidas
-	int clientesFuera; //Cantidad total de llegadas no atendidas
-	int clientesEnCola; // Cantidad total de llegadas a la cola
-	double tiempoDeEsperaEnCola; //Minutos sumados de espera en la cola (para sacar promedio)
+	int clientesPorDía = 0; //Cantidad total de llegadas
+	int clientesAtendidos = 0; // Cantidad total de llegadas atentidas
+	int clientesFuera = 0; //Cantidad total de llegadas no atendidas
+	int totalClientesEnCola = 0; // Cantidad total de llegadas a la cola
+	int clientesEnCola = 0; // Cantidad de clientes en la cola en el momento actual
+	int tamColaMasGrande = 0; // Tamano maximo de la cola
+	int clientesEsperan6Min = 0; // Cantidad de clientes que se salieron de la cola por que esperan 6 minutos
+	double tiempoDeEsperaEnCola = 0; //Minutos sumados de espera en la cola (para sacar promedio)
+	int clientesEnColaEnLLegada = 0; //Numero de clientes en cola en llegadas
+	int num1Servidor = 0; // Numero de veces en que almenos 1 servidor esta disponible en llegadas
+	int num2Servidor = 0; // Numero de veces en que almenos 2 servidores estan disponibles en llegadas
+	int clientesEnSistema603 = 0; // Numero de clientes en el sistema a las 6:03
+	double tiempoEsperaMaximo = 0; // Tiempo de espera maximo en la cola
+	double tiempoRespuesta = 0; // Tiempo total que 
 	servidorGamma s1g;
 	servidorGamma s2g;
 	servidorExponencial s3e;
@@ -50,32 +60,36 @@ public class sistema{
 			}else if(servidorMenorTiempo != null && !cola.isEmpty()){
 				//HAY SERVIDORES EN SERVICIO Y HAY GENTE EN COLA
 				t = tiempoServidores[this.servidorEntero(servidorMenorTiempo)];
-				cliente clientePos1 = cola.peek();
-				if(clientePos1.tiempoEspera<=t && clientePos1.tiempoEspera >=6){
-					this.tiempoDeEsperaEnCola += clientePos1.tiempoEspera;
-					this.siguienteLlegada -= clientePos1.tiempoEspera;
+				while(!cola.isEmpty() && cola.peek().tiempoEspera >= 6) { // Saca los clientes que han esperado 6 minutos
+					this.tiempoDeEsperaEnCola += 6;
 					this.cola.poll();
-					this.clientesFuera++;
-					this.clientesEnCola--;
-					
-				}else{
-					if (t < this.siguienteLlegada){
-						//SE TOMA EL SIGUIENTE SERVICIO
-						this.manejoSalida(servidorMenorTiempo, t);
-						this.cola.poll();
+					--this.clientesEnCola;
+					++this.clientesEsperan6Min;
+				}
+				if (t < this.siguienteLlegada){
+					//SE TOMA EL SIGUIENTE SERVICIO
+					this.manejoSalida(servidorMenorTiempo, t);
+					if (this.clientesEnCola > 0) {
+						double tiempoC = this.cola.poll().tiempoEspera;
+						if(tiempoC > this.tiempoEsperaMaximo) {
+							this.tiempoEsperaMaximo = tiempoC;
+						}
+						this.tiempoDeEsperaEnCola += tiempoC;
+						--this.clientesEnCola;
 						this.manejoLlegada(0);
-					}else{
-						//SE TOMA LA SIGUIENTE LLEGADA
-						this.manejoLlegada(this.siguienteLlegada);
-						this.siguienteLlegada = this.calculoTiempoLlegada();
 					}
-				}	
+				}else{
+					//SE TOMA LA SIGUIENTE LLEGADA
+					this.manejoLlegada(this.siguienteLlegada);
+					this.clientesEnColaEnLLegada += this.clientesEnCola;
+					this.siguienteLlegada = this.calculoTiempoLlegada();
+				}
 			}else{
 				//NO HAY SERVIDORES EN SERVICIO
 				this.manejoLlegada(this.siguienteLlegada);
 				this.siguienteLlegada = this.calculoTiempoLlegada();
 			}
-			this.imprimirEstado();
+//			this.imprimirEstado();
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -85,6 +99,9 @@ public class sistema{
 		}
 		while(!cola.isEmpty() || this.hayServidoresActivos()){
 			//SE CIERRAN LAS OFICINAS
+			if (this.tiempoSistema >= 603) {
+				this.clientesEnSistema603 = this.cola.size() + (4-this.numServidoresDisponibles());
+			}
 			servidorMenorTiempo = this.obtenerTiempoMenorServidor();
 			if(servidorMenorTiempo != null && cola.isEmpty()){
 				//HAY SERVIDORES EN SERVICIO Y LA COLA ESTA VACIA
@@ -95,20 +112,24 @@ public class sistema{
 				//HAY SERVIDORES EN SERVICIO Y HAY GENTE EN COLA
 				t = tiempoServidores[this.servidorEntero(servidorMenorTiempo)];
 				cliente clientePos1 = cola.peek();
-				if(clientePos1.tiempoEspera<=t && clientePos1.tiempoEspera >=6){
-					this.tiempoDeEsperaEnCola += clientePos1.tiempoEspera;
-					this.siguienteLlegada -= clientePos1.tiempoEspera;
+				while(!cola.isEmpty() && cola.peek().tiempoEspera >= 6) {
+					this.tiempoDeEsperaEnCola += 6;
 					this.cola.poll();
-					this.clientesFuera++;
-					this.clientesEnCola--;
-				}else{
-					//SE TOMA EL SIGUIENTE SERVICIO
-					this.manejoSalida(servidorMenorTiempo, t);
-					this.cola.poll();
+					--this.clientesEnCola;
+					++this.clientesEsperan6Min;
+				}
+				this.manejoSalida(servidorMenorTiempo, t);
+				if (this.clientesEnCola > 0) {
+					double tiempoC = this.cola.poll().tiempoEspera;
+					if(tiempoC > this.tiempoEsperaMaximo) {
+						this.tiempoEsperaMaximo = tiempoC;
+					}
+					this.tiempoDeEsperaEnCola += tiempoC;
+					--this.clientesEnCola;
 					this.manejoLlegada(0);
-				}	
+				}
 			}
-			this.imprimirEstado();
+//			this.imprimirEstado();
 			try {
 				Thread.sleep(1);
 			} catch (InterruptedException e) {
@@ -135,10 +156,22 @@ public class sistema{
 		if(!this.asignarServidor(this.tiempoSistema)){
 			this.cola.add(clienteTemp);
 			this.clientesEnCola++;
+			this.totalClientesEnCola++;
+			if (this.clientesEnCola > this.tamColaMasGrande) {
+				this.tamColaMasGrande++;
+			}
 		}else{
 			this.clientesAtendidos++;
 		}
-		this.clientesPorDía++;
+		if (tiempoLlegada > 0) {
+			this.clientesPorDía++;
+			if(this.numServidoresDisponibles() >= 1) {
+				++this.num1Servidor;
+				++this.num2Servidor;
+			} else if (this.numServidoresDisponibles() >=2) {
+				++this.num2Servidor;
+			}
+		}
 	}
 	
 	private void manejoSalida(servidor serv, double tiempoSalida){
@@ -272,5 +305,41 @@ public class sistema{
 			}
 		}
 		return false;
+	}
+	
+	private int numServidoresDisponibles() {
+		int resultado = 0;
+		for(boolean b: this.estadoServidores) {
+			if (!b)
+				++resultado;
+		}
+		return resultado;
+	}
+	
+	public double[] obtenerResultados() {
+		double resultado[] = new double[17];
+		resultado[0] = this.tiempoDeEsperaEnCola/this.clientesPorDía;						//a
+		resultado[1] = (
+				this.s1g.tiempoServicio/this.s1g.contadorClientes+
+				this.s2g.tiempoServicio/this.s2g.contadorClientes+
+				this.s3e.tiempoServicio/this.s3e.contadorClientes+
+				this.s4u.tiempoServicio/this.s4u.contadorClientes
+				)/4;																		//b
+		resultado[2] = ((double)this.clientesEnColaEnLLegada)/this.clientesPorDía;		//c
+		resultado[3] = this.tiempoEsperaMaximo;											//d
+		resultado[4] = this.tamColaMasGrande;											//e
+		resultado[5] = ((double)this.num1Servidor)/this.clientesPorDía;					//f
+		resultado[6] = ((double)this.num2Servidor)/this.clientesPorDía;					//g
+		resultado[7] = this.s1g.contadorClientes;											//h
+		resultado[8] = this.s2g.contadorClientes;											//h
+		resultado[9] = this.s3e.contadorClientes;											//h
+		resultado[10] = this.s4u.contadorClientes;										//h
+		resultado[11] = this.s1g.tiempoEsperaTotal;										//i
+		resultado[12] = this.s2g.tiempoEsperaTotal;										//i
+		resultado[13] = this.s3e.tiempoEsperaTotal;										//i
+		resultado[14] = this.s4u.tiempoEsperaTotal;										//i
+		resultado[15] = this.clientesEnSistema603;										//j
+		resultado[16] = ((double)(this.clientesEsperan6Min*100))/this.clientesPorDía;		//k
+		return resultado;
 	}
 }
